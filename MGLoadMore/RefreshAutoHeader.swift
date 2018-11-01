@@ -2,7 +2,7 @@ import UIKit
 import MJRefresh
 
 open class RefreshAutoHeader: MJRefreshHeader {
-    open var activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray {
+    open var activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray {
         didSet {
             _loadingView = nil
             setNeedsLayout()
@@ -13,7 +13,7 @@ open class RefreshAutoHeader: MJRefreshHeader {
     
     open var loadingView: UIActivityIndicatorView {
         if _loadingView == nil {
-            let view = UIActivityIndicatorView(activityIndicatorStyle: self.activityIndicatorViewStyle)
+            let view = UIActivityIndicatorView(style: self.activityIndicatorViewStyle)
             view.hidesWhenStopped = true
             self.addSubview(view)
             _loadingView = view
