@@ -1,9 +1,17 @@
+//
+//  LoadMoreTableView.swift
+//  MGLoadMore
+//
+//  Created by Tuan Truong on 4/5/19.
+//  Copyright © 2019 Sun Asterisk. All rights reserved.
+//
+
 import UIKit
 import MJRefresh
 import RxCocoa
 import RxSwift
 
-open class LoadMoreCollectionView: UICollectionView {
+open class LoadMoreTableView: UITableView {
     private let _refreshControl = UIRefreshControl()
     
     open var refreshing: Binder<Bool> {
