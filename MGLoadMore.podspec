@@ -25,17 +25,18 @@ s.source = { :git => "https://github.com/tuan188/MGLoadMore.git",
 
 # 7
 s.framework = "UIKit"
-s.dependency 'RxSwift', '~> 4.3'
-s.dependency 'RxCocoa', '~> 4.3'
+s.dependency 'RxAtomic', '~> 4.4'
+s.dependency 'RxSwift', '~> 4.4'
+s.dependency 'RxCocoa', '~> 4.4'
 s.dependency 'MJRefresh', '~> 3.1'
 
 # 8
-s.source_files = "MGLoadMore/**/*.{swift}"
+s.source_files = "MGLoadMore/Sources/*.{swift}"
 
 # 9
 # s.resources = "MGLoadMore/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
 
 # 10
-s.swift_version = "4.2"
+s.swift_version = "5.0"
 
 end
