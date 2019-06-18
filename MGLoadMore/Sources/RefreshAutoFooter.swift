@@ -21,39 +21,42 @@ open class RefreshAutoFooter: MJRefreshAutoFooter {
     private var _loadingView: UIActivityIndicatorView?
     
     open var loadingView: UIActivityIndicatorView {
-        if _loadingView == nil {
+        guard let loadingView = _loadingView else {
             let view = UIActivityIndicatorView(style: self.activityIndicatorViewStyle)
             view.hidesWhenStopped = true
             self.addSubview(view)
             _loadingView = view
+            return view
         }
-        return _loadingView!
+        return loadingView
     }
     
-    open override func prepare() {
+    override open func prepare() {
         super.prepare()
         activityIndicatorViewStyle = .gray
     }
     
-    open override func placeSubviews() {
+    override open func placeSubviews() {
         super.placeSubviews()
         let center = CGPoint(x: mj_w * 0.5, y: mj_h * 0.5)
-        if loadingView.constraints.count == 0 {
+        if loadingView.constraints.isEmpty {
             loadingView.center = center
         }
     }
     
-    open override var state: MJRefreshState {
+    override open var state: MJRefreshState {
         didSet {
             switch state {
             case .idle:
                 if oldValue == .refreshing {
-                    UIView.animate(withDuration: TimeInterval(MJRefreshSlowAnimationDuration), animations: {
-                        self.loadingView.alpha = 0
-                    }) { (finished) in
-                        self.loadingView.alpha = 1
-                        self.loadingView.stopAnimating()
-                    }
+                    UIView.animate(
+                        withDuration: TimeInterval(MJRefreshSlowAnimationDuration),
+                        animations: {
+                            self.loadingView.alpha = 0
+                        }, completion: { _ in
+                            self.loadingView.alpha = 1
+                            self.loadingView.stopAnimating()
+                        })
                 } else {
                     loadingView.stopAnimating()
                 }

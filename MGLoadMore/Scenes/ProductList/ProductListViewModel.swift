@@ -36,15 +36,15 @@ extension ProductListViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let loadMoreOutput = setupLoadMorePaging(
+        let configOutput = configPagination(
             loadTrigger: input.loadTrigger,
             getItems: useCase.getProductList,
-            refreshTrigger: input.reloadTrigger,
-            refreshItems: useCase.getProductList,
+            reloadTrigger: input.reloadTrigger,
+            reloadItems: useCase.getProductList,
             loadMoreTrigger: input.loadMoreTrigger,
             loadMoreItems: useCase.loadMoreProductList)
         
-        let (page, fetchItems, loadError, loading, refreshing, loadingMore) = loadMoreOutput
+        let (page, fetchItems, loadError, loading, refreshing, loadingMore) = configOutput
         
         let productList = page
             .map { $0.items.map { $0 } }

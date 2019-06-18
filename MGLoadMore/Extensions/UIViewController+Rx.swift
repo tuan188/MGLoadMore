@@ -12,7 +12,7 @@ import RxSwift
 
 extension Reactive where Base: UIViewController {
     var error: Binder<Error> {
-        return Binder(base) { viewController, error in
+        return Binder(base) { _, error in
             print(error.localizedDescription)
         }
     }

@@ -8,7 +8,7 @@ s.summary = "LoadMoreTableView, LoadMoreCollectionView"
 s.requires_arc = true
 
 # 2
-s.version = "0.3.0"
+s.version = "0.4.0"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -25,9 +25,8 @@ s.source = { :git => "https://github.com/tuan188/MGLoadMore.git",
 
 # 7
 s.framework = "UIKit"
-s.dependency 'RxAtomic', '~> 4.4'
-s.dependency 'RxSwift', '~> 4.4'
-s.dependency 'RxCocoa', '~> 4.4'
+s.dependency 'RxSwift', '~> 5.0'
+s.dependency 'RxCocoa', '~> 5.0'
 s.dependency 'MJRefresh', '~> 3.1'
 
 # 8

@@ -21,7 +21,7 @@ struct ProductListUseCase: ProductListUseCaseType {
     
     func loadMoreProductList(page: Int) -> Observable<PagingInfo<Product>> {
         let products = [
-            Product(id: 1, name: "iPhone", price: 1000),
+            Product(id: 1, name: "iPhone", price: 1_000),
             Product(id: 2, name: "Apple Watch", price: 400)
         ]
         let page = PagingInfo(page: 1, items: products)

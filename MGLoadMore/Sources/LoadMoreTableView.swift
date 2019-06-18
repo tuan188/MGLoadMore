@@ -55,7 +55,7 @@ open class LoadMoreTableView: UITableView {
         }
     }
     
-    open override func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         self.addSubview(_refreshControl)
         self.refreshFooter = RefreshAutoFooter(refreshingBlock: nil)
