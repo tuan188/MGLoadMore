@@ -14,6 +14,7 @@ import RxSwift
 open class LoadMoreCollectionView: UICollectionView {
     private let _refreshControl = UIRefreshControl()
     
+    @available(*, deprecated, renamed: "isRefreshing")
     open var refreshing: Binder<Bool> {
         return Binder(self) { collectionView, loading in
             if loading {
@@ -26,7 +27,30 @@ open class LoadMoreCollectionView: UICollectionView {
         }
     }
     
+    open var isRefreshing: Binder<Bool> {
+        return Binder(self) { collectionView, loading in
+            if loading {
+                collectionView._refreshControl.beginRefreshing()
+            } else {
+                if collectionView._refreshControl.isRefreshing {
+                    collectionView._refreshControl.endRefreshing()
+                }
+            }
+        }
+    }
+    
+    @available(*, deprecated, renamed: "isLoadingMore")
     open var loadingMore: Binder<Bool> {
+        return Binder(self) { collectionView, loading in
+            if loading {
+                collectionView.mj_footer?.beginRefreshing()
+            } else {
+                collectionView.mj_footer?.endRefreshing()
+            }
+        }
+    }
+    
+    open var isLoadingMore: Binder<Bool> {
         return Binder(self) { collectionView, loading in
             if loading {
                 collectionView.mj_footer?.beginRefreshing()

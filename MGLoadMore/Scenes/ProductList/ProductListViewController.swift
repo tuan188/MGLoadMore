@@ -75,10 +75,10 @@ final class ProductListViewController: UIViewController, BindableType {
             .drive(rx.isLoading)
             .disposed(by: rx.disposeBag)
         output.refreshing
-            .drive(tableView.refreshing)
+            .drive(tableView.isRefreshing)
             .disposed(by: rx.disposeBag)
         output.loadingMore
-            .drive(tableView.loadingMore)
+            .drive(tableView.isLoadingMore)
             .disposed(by: rx.disposeBag)
         output.fetchItems
             .drive()
