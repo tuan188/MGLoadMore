@@ -26,59 +26,40 @@ extension ProductListViewModel: ViewModelType {
     
     struct Output {
         let error: Driver<Error>
-        let loading: Driver<Bool>
-        let refreshing: Driver<Bool>
-        let loadingMore: Driver<Bool>
-        let fetchItems: Driver<Void>
+        let isLoading: Driver<Bool>
+        let isReloading: Driver<Bool>
+        let isLoadingMore: Driver<Bool>
         let productList: Driver<[Product]>
         let selectedProduct: Driver<Void>
-        let isEmptyData: Driver<Bool>
+        let isEmpty: Driver<Bool>
     }
     
     func transform(_ input: Input) -> Output {
-        let configOutput = configPagination(
+        let result = configPagination(
             loadTrigger: input.loadTrigger,
-            getItems: useCase.getProductList,
             reloadTrigger: input.reloadTrigger,
-            reloadItems: useCase.getProductList,
             loadMoreTrigger: input.loadMoreTrigger,
-            loadMoreItems: useCase.loadMoreProductList)
+            getItems: useCase.getProductList)
         
-        let (page, fetchItems, loadError, loading, refreshing, loadingMore) = configOutput
+        let (page, error, isLoading, isReloading, isLoadingMore) = result.destructured
         
         let productList = page
-            .map { $0.items.map { $0 } }
-            .asDriverOnErrorJustComplete()
+            .map { $0.items }
         
-        let selectedProduct = input.selectProductTrigger
-            .withLatestFrom(productList) {
-                return ($0, $1)
-            }
-            .map { indexPath, productList in
-                return productList[indexPath.row]
-            }
-            .do(onNext: { product in
-                self.navigator.toProductDetail(product: product)
-            })
+        let selectedProduct = select(trigger: input.selectProductTrigger, items: productList)
+            .do(onNext: navigator.toProductDetail)
             .mapToVoid()
         
-        let isEmptyData = Driver.combineLatest(fetchItems, Driver.merge(loading, refreshing))
-            .withLatestFrom(productList) { ($0.1, $1.isEmpty) }
-            .map { args -> Bool in
-                let (loading, isEmpty) = args
-                if loading { return false }
-                return isEmpty
-            }
+        let isEmpty = checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: productList)
         
         return Output(
-            error: loadError,
-            loading: loading,
-            refreshing: refreshing,
-            loadingMore: loadingMore,
-            fetchItems: fetchItems,
+            error: error,
+            isLoading: isLoading,
+            isReloading: isReloading,
+            isLoadingMore: isLoadingMore,
             productList: productList,
             selectedProduct: selectedProduct,
-            isEmptyData: isEmptyData
+            isEmpty: isEmpty
         )
     }
 }

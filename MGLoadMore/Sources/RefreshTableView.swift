@@ -13,34 +13,12 @@ import RxSwift
 
 open class RefreshTableView: UITableView {
     
-    @available(*, deprecated, renamed: "isLoadingMoreTop")
-    open var loadingMoreTop: Binder<Bool> {
-        return Binder(self) { tableView, loading in
-            if loading {
-                tableView.mj_header?.beginRefreshing()
-            } else {
-                tableView.mj_header?.endRefreshing()
-            }
-        }
-    }
-    
     open var isLoadingMoreTop: Binder<Bool> {
         return Binder(self) { tableView, loading in
             if loading {
                 tableView.mj_header?.beginRefreshing()
             } else {
                 tableView.mj_header?.endRefreshing()
-            }
-        }
-    }
-    
-    @available(*, deprecated, renamed: "isLoadingMoreBottom")
-    open var loadingMoreBottom: Binder<Bool> {
-        return Binder(self) { tableView, loading in
-            if loading {
-                tableView.mj_footer?.beginRefreshing()
-            } else {
-                tableView.mj_footer?.endRefreshing()
             }
         }
     }

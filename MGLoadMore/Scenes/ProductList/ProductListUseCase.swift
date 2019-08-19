@@ -10,21 +10,16 @@ import RxSwift
 import MGArchitecture
 
 protocol ProductListUseCaseType {
-    func getProductList() -> Observable<PagingInfo<Product>>
-    func loadMoreProductList(page: Int) -> Observable<PagingInfo<Product>>
+    func getProductList(page: Int) -> Observable<PagingInfo<Product>>
 }
 
 struct ProductListUseCase: ProductListUseCaseType {
-    func getProductList() -> Observable<PagingInfo<Product>> {
-        return loadMoreProductList(page: 1)
-    }
-    
-    func loadMoreProductList(page: Int) -> Observable<PagingInfo<Product>> {
+    func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
         let products = [
             Product(id: 1, name: "iPhone", price: 1_000),
             Product(id: 2, name: "Apple Watch", price: 400)
         ]
-        let page = PagingInfo(page: 1, items: products)
+        let page = PagingInfo(page: page, items: products)
         return Observable.just(page)
     }
 }

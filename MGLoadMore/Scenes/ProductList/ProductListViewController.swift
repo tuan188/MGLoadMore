@@ -68,25 +68,28 @@ final class ProductListViewController: UIViewController, BindableType {
                     }
             }
             .disposed(by: rx.disposeBag)
+        
         output.error
             .drive(rx.error)
             .disposed(by: rx.disposeBag)
-        output.loading
+        
+        output.isLoading
             .drive(rx.isLoading)
             .disposed(by: rx.disposeBag)
-        output.refreshing
+        
+        output.isReloading
             .drive(tableView.isRefreshing)
             .disposed(by: rx.disposeBag)
-        output.loadingMore
+        
+        output.isLoadingMore
             .drive(tableView.isLoadingMore)
             .disposed(by: rx.disposeBag)
-        output.fetchItems
-            .drive()
-            .disposed(by: rx.disposeBag)
+
         output.selectedProduct
             .drive()
             .disposed(by: rx.disposeBag)
-        output.isEmptyData
+        
+        output.isEmpty
             .drive()
             .disposed(by: rx.disposeBag)
     }
