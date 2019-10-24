@@ -15,11 +15,18 @@ protocol ProductListUseCaseType {
 
 struct ProductListUseCase: ProductListUseCaseType {
     func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
-        let products = [
-            Product(id: 1, name: "iPhone", price: 1_000),
-            Product(id: 2, name: "Apple Watch", price: 400)
-        ]
-        let page = PagingInfo(page: page, items: products)
-        return Observable.just(page)
+        return Observable.create { observer in
+            let products = [
+                Product(id: 1, name: "iPhone", price: 1_000),
+                Product(id: 2, name: "Apple Watch", price: 400)
+            ]
+            let page = PagingInfo(page: page, items: products)
+            after(interval: 0.5) {
+                observer.onNext(page)
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
+        }
     }
 }

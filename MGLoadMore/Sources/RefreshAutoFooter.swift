@@ -11,7 +11,7 @@ import MJRefresh
 
 open class RefreshAutoFooter: MJRefreshAutoFooter {
     
-    open var activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray {
+    open var activityIndicatorViewStyle: UIActivityIndicatorView.Style! {
         didSet {
             _loadingView = nil
             setNeedsLayout()
@@ -28,17 +28,35 @@ open class RefreshAutoFooter: MJRefreshAutoFooter {
             _loadingView = view
             return view
         }
+        
         return loadingView
+    }
+    
+    override open func awakeFromNib() {
+        super.awakeFromNib()
+        
+        if #available(iOS 13.0, *) {
+            activityIndicatorViewStyle = .medium
+        } else {
+            activityIndicatorViewStyle = .gray
+        }
     }
     
     override open func prepare() {
         super.prepare()
-        activityIndicatorViewStyle = .gray
+        
+        if #available(iOS 13.0, *) {
+            activityIndicatorViewStyle = .medium
+        } else {
+            activityIndicatorViewStyle = .gray
+        }
     }
     
     override open func placeSubviews() {
         super.placeSubviews()
+        
         let center = CGPoint(x: mj_w * 0.5, y: mj_h * 0.5)
+        
         if loadingView.constraints.isEmpty {
             loadingView.center = center
         }

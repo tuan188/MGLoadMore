@@ -29,6 +29,12 @@ final class ProductListViewController: UIViewController, BindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         configView()
+        
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
     }
     
     deinit {
@@ -43,6 +49,7 @@ final class ProductListViewController: UIViewController, BindableType {
             $0.rowHeight = UITableView.automaticDimension
             $0.register(cellType: ProductCell.self)
         }
+        
         tableView.rx
             .setDelegate(self)
             .disposed(by: rx.disposeBag)
