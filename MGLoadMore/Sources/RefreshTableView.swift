@@ -65,7 +65,7 @@ open class RefreshTableView: UITableView {
     
     override open func awakeFromNib() {
         super.awakeFromNib()
-        self.refreshHeader = RefreshAutoHeader(refreshingBlock: nil)
-        self.refreshFooter = RefreshAutoFooter(refreshingBlock: nil)
+        self.refreshHeader = RefreshAutoHeader()
+        self.refreshFooter = RefreshAutoFooter()
     }
 }

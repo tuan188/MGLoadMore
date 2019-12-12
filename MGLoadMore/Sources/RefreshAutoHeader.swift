@@ -30,7 +30,7 @@ open class RefreshAutoHeader: MJRefreshHeader {
         
         return loadingView
     }
-    
+
     override open func awakeFromNib() {
         super.awakeFromNib()
         
