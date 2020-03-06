@@ -2,13 +2,13 @@ Pod::Spec.new do |s|
 
 # 1
 s.platform = :ios
-s.ios.deployment_target = '9.0'
+s.ios.deployment_target = '10.0'
 s.name = "MGLoadMore"
 s.summary = "LoadMoreTableView, LoadMoreCollectionView"
 s.requires_arc = true
 
 # 2
-s.version = "1.2.0"
+s.version = "1.3.0"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -25,8 +25,8 @@ s.source = { :git => "https://github.com/tuan188/MGLoadMore.git",
 
 # 7
 s.framework = "UIKit"
-s.dependency 'RxSwift', '~> 5.0'
-s.dependency 'RxCocoa', '~> 5.0'
+s.dependency 'RxSwift', '~> 5.1'
+s.dependency 'RxCocoa', '~> 5.1'
 s.dependency 'MJRefresh', '~> 3.2'
 
 # 8
