@@ -4,11 +4,11 @@ Pod::Spec.new do |s|
 s.platform = :ios
 s.ios.deployment_target = '9.0'
 s.name = "MGLoadMore"
-s.summary = "LoadMoreTableView, LoadMoreCollectionView"
+s.summary = "PagingTableView, PagingCollectionView"
 s.requires_arc = true
 
 # 2
-s.version = "1.3.1"
+s.version = "2.0.0"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }

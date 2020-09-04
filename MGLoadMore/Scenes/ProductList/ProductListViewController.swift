@@ -18,7 +18,7 @@ final class ProductListViewController: UIViewController, BindableType {
     
     // MARK: - IBOutlets
     
-    @IBOutlet weak var tableView: LoadMoreTableView!
+    @IBOutlet weak var tableView: PagingTableView!
 
     // MARK: - Properties
     
