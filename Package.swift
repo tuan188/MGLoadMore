@@ -15,15 +15,15 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.1.0"),
-        .package(url: "https://github.com/eggswift/pull-to-refresh.git", from: "2.9.3"),
+        .package(url: "https://github.com/eggswift/pull-to-refresh", from: "2.9.3"),
     ],
     targets: [
         .target(
             name: "MGLoadMore",
             dependencies: [
+                .product(name: "ESPullToRefresh"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
-                .product(name: "ESPullToRefresh", package: "pull-to-refresh"),
             ],
             path: "MGLoadMore/Sources"
         ),    

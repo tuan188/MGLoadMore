@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "ESPullToRefresh",
-        "repositoryURL": "https://github.com/eggswift/pull-to-refresh.git",
+        "repositoryURL": "https://github.com/eggswift/pull-to-refresh",
         "state": {
           "branch": null,
           "revision": "a858aaeb44abc6428af916e8496429d244fac053",
