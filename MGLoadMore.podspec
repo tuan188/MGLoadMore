@@ -8,7 +8,7 @@ s.summary = "PagingTableView, PagingCollectionView"
 s.requires_arc = true
 
 # 2
-s.version = "2.0.0"
+s.version = "3.0.0"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -27,7 +27,7 @@ s.source = { :git => "https://github.com/tuan188/MGLoadMore.git",
 s.framework = "UIKit"
 s.dependency 'RxSwift', '~> 5.1'
 s.dependency 'RxCocoa', '~> 5.1'
-s.dependency 'MJRefresh', '~> 3.2'
+s.dependency 'ESPullToRefresh', '~> 2.9'
 
 # 8
 s.source_files = "MGLoadMore/Sources/*.{swift}"

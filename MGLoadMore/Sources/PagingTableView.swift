@@ -9,7 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-import MJRefresh
+import ESPullToRefresh
 
 open class PagingTableView: UITableView {
     private let _refreshControl = UIRefreshControl()
@@ -26,9 +26,9 @@ open class PagingTableView: UITableView {
                 }
             } else {
                 if loading {
-                    tableView.mj_header?.beginRefreshing()
+                    tableView.es.startPullToRefresh()
                 } else {
-                    tableView.mj_header?.endRefreshing()
+                    tableView.es.stopPullToRefresh()
                 }
             }
         }
@@ -37,9 +37,9 @@ open class PagingTableView: UITableView {
     open var isLoadingMore: Binder<Bool> {
         return Binder(self) { tableView, loading in
             if loading {
-                tableView.mj_footer?.beginRefreshing()
+                tableView.es.base.footer?.startRefreshing()
             } else {
-                tableView.mj_footer?.endRefreshing()
+                tableView.es.stopLoadingMore()
             }
         }
     }
@@ -47,11 +47,19 @@ open class PagingTableView: UITableView {
     private var _refreshTrigger = PublishSubject<Void>()
     
     open var refreshTrigger: Driver<Void> {
-        if refreshHeader == nil {
-            return _refreshControl.rx.controlEvent(.valueChanged).asDriver()
-        } else {
-            return _refreshTrigger.asDriver(onErrorJustReturn: ())
-        }
+        return Driver.merge(
+            _refreshTrigger
+                .filter { [weak self] in
+                    self?.refreshHeader != nil
+                }
+                .asDriver(onErrorJustReturn: ()),
+            _refreshControl.rx.controlEvent(.valueChanged)
+                .filter { [weak self] in
+                    self?.refreshHeader == nil
+                }
+                .asDriver(onErrorJustReturn: ())
+        )
+        
     }
     
     private var _loadMoreTrigger = PublishSubject<Void>()
@@ -60,21 +68,20 @@ open class PagingTableView: UITableView {
         _loadMoreTrigger.asDriver(onErrorJustReturn: ())
     }
     
-    open var refreshHeader: MJRefreshHeader? {
+    open var refreshHeader: (ESRefreshProtocol & ESRefreshAnimatorProtocol)? {
         didSet {
-            mj_header = refreshHeader
-            mj_header?.refreshingBlock = { [weak self] in
+            guard let header = refreshHeader else { return }
+            es.addPullToRefresh(animator: header) { [weak self] in
                 self?._refreshTrigger.onNext(())
             }
-            
             removeRefreshControl()
         }
     }
     
-    open var refreshFooter: MJRefreshFooter? {
+    open var refreshFooter: (ESRefreshProtocol & ESRefreshAnimatorProtocol)? {
         didSet {
-            mj_footer = refreshFooter
-            mj_footer?.refreshingBlock = { [weak self] in
+            guard let footer = refreshFooter else { return }
+            es.addInfiniteScrolling(animator: footer) { [weak self] in
                 self?._loadMoreTrigger.onNext(())
             }
         }
@@ -82,18 +89,27 @@ open class PagingTableView: UITableView {
     
     override open func awakeFromNib() {
         super.awakeFromNib()
-        addSubview(_refreshControl)
-        refreshFooter = RefreshAutoFooter()
+        expiredTimeInterval = 20.0
+        addRefreshControl()
+        refreshFooter = RefreshFooterAnimator(frame: .zero)
     }
     
     open func addRefreshControl() {
-        guard !self.subviews.contains(_refreshControl) else { return }
-        
         refreshHeader = nil
-        addSubview(_refreshControl)
+        
+        if #available(iOS 10.0, *) {
+            self.refreshControl = _refreshControl
+        } else {
+            guard !self.subviews.contains(_refreshControl) else { return }
+            self.addSubview(_refreshControl)
+        }
     }
     
     open func removeRefreshControl() {
-        _refreshControl.removeFromSuperview()
+        if #available(iOS 10.0, *) {
+            self.refreshControl = nil
+        } else {
+            _refreshControl.removeFromSuperview()
+        }
     }
 }
