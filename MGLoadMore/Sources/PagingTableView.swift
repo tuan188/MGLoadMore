@@ -70,17 +70,23 @@ open class PagingTableView: UITableView {
     
     open var refreshHeader: (ESRefreshProtocol & ESRefreshAnimatorProtocol)? {
         didSet {
+            removeRefreshControl()
+            removeRefreshHeader()
+            
             guard let header = refreshHeader else { return }
+            
             es.addPullToRefresh(animator: header) { [weak self] in
                 self?._refreshTrigger.onNext(())
             }
-            removeRefreshControl()
         }
     }
     
     open var refreshFooter: (ESRefreshProtocol & ESRefreshAnimatorProtocol)? {
         didSet {
+            removeRefreshFooter()
+            
             guard let footer = refreshFooter else { return }
+            
             es.addInfiniteScrolling(animator: footer) { [weak self] in
                 self?._loadMoreTrigger.onNext(())
             }
@@ -112,4 +118,13 @@ open class PagingTableView: UITableView {
             _refreshControl.removeFromSuperview()
         }
     }
+    
+    open func removeRefreshHeader() {
+        es.removeRefreshHeader()
+    }
+    
+    open func removeRefreshFooter() {
+        es.removeRefreshFooter()
+    }
+    
 }
